@@ -20,3 +20,6 @@ encouraged, preparing students for successful careers in web development.
 ## Task 1:
 Portfolio Exercise Done
 
+## Task 2:
+Rest API done fetching data from newsapi and render on the web page.
+
