@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { BiUserCircle } from "react-icons/bi";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import "./App.css";
 
@@ -45,33 +46,40 @@ function App() {
 
   return (
     <Router>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {articles.map((article, index) => (
-          <div
-            key={index}
-            className="border-2 border-gray-500 rounded-lg px-4 py-2 m-4 relative hover:shadow-xl"
-          >
-            <div className="top-1 w-full">
-              <img
-                className="w-full h-auto rounded-lg"
-                src={article.urlToImage || "default_image_url"}
-                alt={article.title}
-              />
+      <InfiniteScroll
+        dataLength={articles.length}
+        next={handleNextPage}
+        hasMore={currentPage < totalPages}
+        style={{ overflow: "hidden" }}
+      >
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {articles.map((article, index) => (
+            <div
+              key={index}
+              className="border-2 border-gray-500 rounded-lg px-4 py-2 m-4 relative hover:shadow-xl"
+            >
+              <div className="top-1 w-full">
+                <img
+                  className="w-full h-auto rounded-lg"
+                  src={article.urlToImage || "default_image_url"}
+                  alt={article.title}
+                />
+              </div>
+              <h4 className="my-2 text-gray-500">{article.source?.name}</h4>
+              <div className="flex justify-start items-center gap-x-2">
+                <h2 className="my-1">{article.title}</h2>
+              </div>
+              <div className="flex justify-start items-center gap-x-2">
+                <BiUserCircle className="text-red-300 text-2xl" />
+                <h2 className="my-1">{article.author || "Unknown Author"}</h2>
+              </div>
+              <h2 className=" top-1 right-2 px-4 py-1 bg-red-300 rounded-lg">
+                {article.publishedAt}
+              </h2>
             </div>
-            <h4 className="my-2 text-gray-500">{article.source?.name}</h4>
-            <div className="flex justify-start items-center gap-x-2">
-              <h2 className="my-1">{article.title}</h2>
-            </div>
-            <div className="flex justify-start items-center gap-x-2">
-              <BiUserCircle className="text-red-300 text-2xl" />
-              <h2 className="my-1">{article.author || "Unknown Author"}</h2>
-            </div>
-            <h2 className=" top-1 right-2 px-4 py-1 bg-red-300 rounded-lg">
-              {article.publishedAt}
-            </h2>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </InfiniteScroll>
       <div className="flex justify-center align-middle gap-5 m-3 pagination">
         <button
           onClick={handlePreviousPage}
