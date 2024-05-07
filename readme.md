@@ -23,3 +23,4 @@ Portfolio Exercise Done
 ## Task 2:
 Rest API done fetching data from newsapi and render on the web page.
 
+## Practice Done.
