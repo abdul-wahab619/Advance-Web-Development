@@ -7,6 +7,8 @@ import cors from "cors";
 import Blog from "./models/blog.js";
 import userRoute from "./routes/user.js";
 import blogRoute from "./routes/blog.js";
+import contactRoute from "./routes/contact.js";
+
 import { checkForAuthenticationCookie } from "./middlewares/authentication.js";
 dotenv.config();
 
@@ -35,6 +37,7 @@ app.use(express.static(path.resolve("./public")));
 
 app.use("/user", userRoute);
 app.use("/blogs", blogRoute);
+app.use("/contact", contactRoute);
 
 app.get("/", async (req, res) => {
   try {

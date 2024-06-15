@@ -43,3 +43,7 @@ Rest API done fetching data from newsapi and render on the web page.
 - Home
 - Signup
 - Signin
+
+3. Contact form
+
+- Sending form data to the gamil account
