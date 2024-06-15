@@ -49,3 +49,8 @@ Rest API done fetching data from newsapi and render on the web page.
 - Sending form data to the gamil account
 
 4. Navbar & Footer
+
+5. Edit & Delete Features Added
+
+- Put
+- Delete

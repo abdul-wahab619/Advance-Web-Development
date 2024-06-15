@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Script from "../components/Script";
-import { BiEdit } from "react-icons/bi";
 import { AiFillEdit, AiOutlineDelete } from "react-icons/ai";
 
 const Home = () => {
@@ -80,34 +79,35 @@ const Home = () => {
           </Link>
         </div>
       </div>
-      <div className="m-8 mt-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+      <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 px-4">
         {filteredBlogs.map((blog) => (
-          <div key={blog._id} className="col">
-            <div className="card w-72 bg-white shadow-md rounded-lg overflow-hidden">
-              <div className="mb-2 flex justify-between text-2xl text-primaryColor">
-                <Link to={"/edit"}>
-                  <AiFillEdit />
-                </Link>
-                <Link to={"/delete"}>
-                  <AiOutlineDelete className="text-red-500"/>
-                </Link>
-              </div>
-              <img
-                src={`http://localhost:9000${blog.coverImageUrl}`}
-                className="card-img-top w-full h-48 object-cover"
-                alt="Blog cover"
-              />
-              <div className="card-body p-4">
-                <h5 className="card-title text-xl font-bold mb-2">
-                  {blog.title}
-                </h5>
-                <Link
-                  to={`/blog/${blog._id}`}
-                  className="btn btn-primary bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
-                >
-                  View
-                </Link>
-              </div>
+          <div
+            key={blog._id}
+            className="p-3 card w-full bg-white shadow-2xl rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300"
+          >
+            <div className="mb-2 flex justify-between text-2xl text-primaryColor">
+              <Link to={`/edit/blog/${blog._id}`}>
+                <AiFillEdit />
+              </Link>
+              <Link to={`/delete/blog/${blog._id}`}>
+                <AiOutlineDelete className="text-red-500" />
+              </Link>
+            </div>
+            <img
+              src={`http://localhost:9000${blog.coverImageUrl}`}
+              className="rounded-lg card-img-top w-full h-48 object-cover"
+              alt="Blog cover"
+            />
+            <div className="card-body p-4">
+              <h5 className="card-title text-2xl font-bold mb-2">
+                {blog.title}
+              </h5>
+              <button
+                onClick={() => navigate(`/blog/${blog._id}`)}
+                className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors duration-300"
+              >
+                View
+              </button>
             </div>
           </div>
         ))}

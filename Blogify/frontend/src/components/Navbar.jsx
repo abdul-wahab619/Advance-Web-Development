@@ -44,23 +44,6 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleStickyHeader);
   }, []);
 
-  useEffect(() => {
-    // Fetch the current user when the component mounts
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get("http://localhost:9000/user/me", {
-          withCredentials: true,
-        });
-        console.log(response);
-        setUser(response.data.user);
-      } catch (error) {
-        console.log("No user is logged in");
-      }
-    };
-
-    fetchUser();
-  }, []);
-
   const toggleMenu = () => {
     if (menuRef.current) {
       setIsMenuOpen(!isMenuOpen);
@@ -123,7 +106,7 @@ const Navbar = () => {
 
           {/* ========== nav right ========== */}
           <div className="flex items-center gap-4">
-            { user ? (
+            {user ? (
               <div className="relative group">
                 <button className="bg-primaryColor text-white py-2 px-4 rounded-full flex items-center justify-center">
                   {/* {user.fullName} */}
@@ -151,7 +134,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <style jsx>{`
+      <style>{`
         .header {
           background-color: rgba(255, 255, 255, 0.8);
           backdrop-filter: blur(10px);

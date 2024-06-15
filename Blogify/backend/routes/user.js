@@ -1,7 +1,5 @@
 import express from "express";
 import User from "../models/user.js";
-import { verifyToken } from "../middlewares/auth.js";
-
 const router = express.Router();
 
 // Signin route
@@ -18,7 +16,6 @@ router.post("/signin", async (req, res) => {
     });
   }
 });
-
 // Signup route
 router.post("/signup", async (req, res) => {
   const { fullName, email, password } = req.body;
@@ -34,18 +31,6 @@ router.post("/signup", async (req, res) => {
     });
   } catch (error) {
     return res.status(400).json({ message: error.message });
-  }
-});
-// Get current user route
-router.get('/me', verifyToken, async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-    return res.json({ user: { email: user.email, fullName: user.fullName } });
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
   }
 });
 // Logout route

@@ -17,14 +17,6 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-
-// Add a new blog form
-router.get("/add", (req, res) => {
-  return res.json({
-    user: req.user,
-  });
-});
-
 // Get all blogs
 router.get("/", async (req, res) => {
   try {
@@ -54,6 +46,21 @@ router.get("/:id", async (req, res) => {
   } catch (error) {
     console.error("Error fetching blog or comments:", error);
     return res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+// find blogs by Id
+router.get("/edit/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const blog = await Blog.findById(id);
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+    return res.status(200).json(blog);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send({ message: err.message });
   }
 });
 
@@ -101,6 +108,43 @@ router.post("/create", upload.single("coverImage"), async (req, res) => {
   } catch (error) {
     console.error("Error creating blog:", error);
     return res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+// update Blog by id
+router.put("/:id", async (req, res) => {
+  try {
+    if (!req.body.title || !req.body.body) {
+      return res.status(400).send({
+        message: "Send All required fields: title, body, coverImage",
+      });
+    }
+    const { id } = req.params;
+    const result = await Blog.findByIdAndUpdate(id, req.body);
+
+    if (!result) {
+      return res.status(404).send({ message: "Blog not found" });
+    }
+    return res.status(200).send({ message: "Blog updated successfully" });
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send({ message: err.message });
+  }
+});
+
+// delete Blog by id
+router.delete("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await Blog.findByIdAndDelete(id);
+
+    if (!result) {
+      return res.status(404).send({ message: "Blog not found" });
+    }
+    return res.status(200).send({ message: "Blog deleted successfully" });
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send({ message: err.message });
   }
 });
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { AiFillEdit, AiOutlineDelete } from "react-icons/ai";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import axios from "axios";
@@ -45,11 +46,19 @@ const Blogs = () => {
         {filteredBlogs.map((blog) => (
           <div
             key={blog._id}
-            className="card w-full bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300"
+            className="p-3 card w-full bg-white shadow-2xl rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300"
           >
+            <div className="mb-2 flex justify-between text-2xl text-primaryColor">
+              <Link to={`/edit/blog/${blog._id}`}>
+                <AiFillEdit />
+              </Link>
+              <Link to={`/delete/blog/${blog._id}`}>
+                <AiOutlineDelete className="text-red-500" />
+              </Link>
+            </div>
             <img
               src={`http://localhost:9000${blog.coverImageUrl}`}
-              className="card-img-top w-full h-48 object-cover"
+              className="rounded-lg card-img-top w-full h-48 object-cover"
               alt="Blog cover"
             />
             <div className="card-body p-4">
