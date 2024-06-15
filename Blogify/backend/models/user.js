@@ -1,6 +1,6 @@
-const { createHmac, randomBytes } = require("node:crypto");
-const { Schema, model } = require("mongoose");
-const { createToken } = require("../services/authentication");
+import { createHmac, randomBytes } from "node:crypto";
+import { Schema, model } from "mongoose";
+import { createToken } from "../services/authentication.js";
 
 const userSchema = new Schema(
   {
@@ -15,7 +15,6 @@ const userSchema = new Schema(
     },
     salt: {
       type: String,
-      // required: true,
     },
     password: {
       type: String,
@@ -37,7 +36,7 @@ const userSchema = new Schema(
 userSchema.pre("save", function (next) {
   const user = this;
 
-  if (!user.isModified("password")) return;
+  if (!user.isModified("password")) return next();
 
   const salt = randomBytes(16).toString();
   const hashPassword = createHmac("sha256", salt)
@@ -71,5 +70,5 @@ userSchema.static(
   }
 );
 
-const User = model("user", userSchema);
-module.exports = User;
+const User = model("User", userSchema);
+export default User;

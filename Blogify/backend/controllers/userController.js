@@ -1,12 +1,14 @@
-const User = require("../models/user");
-function getSignInPage(req, res) {
+import User from "../models/user.js";
+
+export function getSignInPage(req, res) {
   return res.render("signin");
 }
-function getSignUpPage(req, res) {
+
+export function getSignUpPage(req, res) {
   return res.render("signup");
 }
 
-async function signIn(req, res) {
+export async function signIn(req, res) {
   const { email, password } = req.body;
   try {
     const token = await User.matchPasswordandGenerateToken(email, password);
@@ -18,7 +20,7 @@ async function signIn(req, res) {
   }
 }
 
-async function signUp(req, res) {
+export async function signUp(req, res) {
   const { fullName, email, password } = req.body;
 
   await User.create({
@@ -29,8 +31,6 @@ async function signUp(req, res) {
   return res.redirect("/");
 }
 
-function logOut(req, res) {
+export function logOut(req, res) {
   res.clearCookie("token").redirect("/");
 }
-
-module.exports = { getSignInPage, getSignUpPage, signIn, signUp, logOut };

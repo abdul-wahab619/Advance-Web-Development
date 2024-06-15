@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+import { Schema, model } from "mongoose";
 
 const commentSchema = new Schema(
   {
@@ -8,15 +8,15 @@ const commentSchema = new Schema(
     },
     blogId: {
       type: Schema.Types.ObjectId,
-      ref: "blog",
+      ref: "Blog",
     },
     createdBy: {
       type: Schema.Types.ObjectId,
-      ref: "user",
+      ref: "User",
     },
   },
   { timestamps: true }
 );
 
-const Comment = model("comment", commentSchema);
-module.exports = Comment;
+const Comment = model("Comment", commentSchema);
+export default Comment;

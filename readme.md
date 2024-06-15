@@ -33,3 +33,13 @@ Rest API done fetching data from newsapi and render on the web page.
 ### Blogify (For Blog Posts)
 
 1. Basic Setup done
+
+2. Adding Pages
+
+- Blog (to see one)
+- Blogs (to see all)
+- Contact
+- CreateBlog
+- Home
+- Signup
+- Signin
