@@ -56,7 +56,7 @@ const Blog = () => {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto my-10 p-4">
+      <div className="mt-24 container mx-auto my-10 p-4">
         <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
           <img
             src={`http://localhost:9000${blog.coverImageUrl}`}
@@ -69,7 +69,9 @@ const Blog = () => {
           </div>
         </div>
         <div className="mt-10">
-          <h2 className="text-2xl font-bold mb-4">Comments</h2>
+          <h2 className="text-2xl font-bold mb-4">
+            Comments - ({comments.length})
+          </h2>
           <form onSubmit={handleCommentSubmit} className="mb-4">
             <textarea
               value={newComment}

@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Script from "../components/Script";
+import { BiEdit } from "react-icons/bi";
+import { AiFillEdit, AiOutlineDelete } from "react-icons/ai";
 
 const Home = () => {
   const [blogs, setBlogs] = useState([]);
@@ -43,10 +45,14 @@ const Home = () => {
     }
   };
 
+  const filteredBlogs = blogs.filter((blog) =>
+    blog.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <>
       <Navbar />
-      <div className="m-10 flex justify-between">
+      <div className="m-10 mt-24 flex justify-between">
         <div className="flex items-center">
           <input
             type="text"
@@ -67,7 +73,7 @@ const Home = () => {
         </div>
         <div>
           <Link
-            to="/create-blog"
+            to="/blogs/create"
             className="px-3 py-2 text-white border border-black bg-blue-500 text-2xl rounded-lg"
           >
             Create Blog
@@ -75,9 +81,17 @@ const Home = () => {
         </div>
       </div>
       <div className="m-8 mt-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-        {blogs.map((blog) => (
+        {filteredBlogs.map((blog) => (
           <div key={blog._id} className="col">
             <div className="card w-72 bg-white shadow-md rounded-lg overflow-hidden">
+              <div className="mb-2 flex justify-between text-2xl text-primaryColor">
+                <Link to={"/edit"}>
+                  <AiFillEdit />
+                </Link>
+                <Link to={"/delete"}>
+                  <AiOutlineDelete className="text-red-500"/>
+                </Link>
+              </div>
               <img
                 src={`http://localhost:9000${blog.coverImageUrl}`}
                 className="card-img-top w-full h-48 object-cover"

@@ -47,3 +47,5 @@ Rest API done fetching data from newsapi and render on the web page.
 3. Contact form
 
 - Sending form data to the gamil account
+
+4. Navbar & Footer

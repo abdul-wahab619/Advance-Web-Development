@@ -32,7 +32,7 @@ const Blogs = () => {
   return (
     <>
       <Navbar />
-      <div className="flex justify-center my-10">
+      <div className="mt-24 flex justify-center my-10">
         <input
           type="text"
           placeholder="Search by title"

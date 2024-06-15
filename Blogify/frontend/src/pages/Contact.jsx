@@ -40,7 +40,7 @@ const Contact = () => {
   return (
     <>
       <Navbar />
-      <section className="bg-gray-100 py-12">
+      <section className="mt-24 bg-gray-100 py-12">
         <div className="px-4 mx-auto max-w-screen-md">
           <h2 className="text-3xl font-extrabold text-center mb-4">
             Contact Us
