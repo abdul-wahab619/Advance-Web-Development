@@ -49,7 +49,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// find blogs by Id
+// Get blog by id for editing
 router.get("/edit/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -57,7 +57,42 @@ router.get("/edit/:id", async (req, res) => {
     if (!blog) {
       return res.status(404).json({ message: "Blog not found" });
     }
-    return res.status(200).json(blog);
+    res.status(200).json({
+      ...blog._doc,
+      coverImageUrl: blog.coverImageUrl ? `${req.protocol}://${req.get('host')}${blog.coverImageUrl}` : null,
+    });
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send({ message: err.message });
+  }
+});
+
+// Update Blog by id
+router.put("/:id", upload.single("coverImage"), async (req, res) => {
+  const { title, body } = req.body;
+  try {
+    if (!title || !body) {
+      return res.status(400).send({
+        message: "Send All required fields: title, body, coverImage",
+      });
+    }
+
+    const { id } = req.params;
+    const updateData = { title, body };
+
+    if (req.file) {
+      updateData.coverImageUrl = `/uploads/${req.file.filename}`;
+    }
+
+    const result = await Blog.findByIdAndUpdate(id, updateData, { new: true });
+
+    if (!result) {
+      return res.status(404).send({ message: "Blog not found" });
+    }
+
+    return res
+      .status(200)
+      .send({ message: "Blog updated successfully", blog: result });
   } catch (err) {
     console.log(err.message);
     res.status(500).send({ message: err.message });
@@ -111,26 +146,37 @@ router.post("/create", upload.single("coverImage"), async (req, res) => {
   }
 });
 
-// update Blog by id
-router.put("/:id", async (req, res) => {
-  try {
-    if (!req.body.title || !req.body.body) {
-      return res.status(400).send({
-        message: "Send All required fields: title, body, coverImage",
-      });
-    }
-    const { id } = req.params;
-    const result = await Blog.findByIdAndUpdate(id, req.body);
+// // Update Blog by id
+// router.put("/:id", upload.single("coverImage"), async (req, res) => {
+//   const { title, body } = req.body;
+//   try {
+//     if (!title || !body) {
+//       return res.status(400).send({
+//         message: "Send All required fields: title, body, coverImage",
+//       });
+//     }
 
-    if (!result) {
-      return res.status(404).send({ message: "Blog not found" });
-    }
-    return res.status(200).send({ message: "Blog updated successfully" });
-  } catch (err) {
-    console.log(err.message);
-    res.status(500).send({ message: err.message });
-  }
-});
+//     const { id } = req.params;
+//     const updateData = { title, body };
+
+//     if (req.file) {
+//       updateData.coverImageUrl = `/uploads/${req.file.filename}`;
+//     }
+
+//     const result = await Blog.findByIdAndUpdate(id, updateData, { new: true });
+
+//     if (!result) {
+//       return res.status(404).send({ message: "Blog not found" });
+//     }
+
+//     return res
+//       .status(200)
+//       .send({ message: "Blog updated successfully", blog: result });
+//   } catch (err) {
+//     console.log(err.message);
+//     res.status(500).send({ message: err.message });
+//   }
+// });
 
 // delete Blog by id
 router.delete("/:id", async (req, res) => {

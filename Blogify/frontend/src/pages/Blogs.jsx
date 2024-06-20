@@ -42,6 +42,10 @@ const Blogs = () => {
           className="w-1/2 font-medium text-xl px-5 py-2 rounded-lg border border-gray-400 focus:border-blue-400 focus:bg-blue-100"
         />
       </div>
+      <div className="text-center">
+        <h3 className="text-3xl font-semibold">Our Blogs ({filteredBlogs.length})</h3>
+        <hr className="mt-2 mb-4 ml-[43%] items-center border-b-4 w-44"/>
+      </div>
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 px-4">
         {filteredBlogs.map((blog) => (
           <div

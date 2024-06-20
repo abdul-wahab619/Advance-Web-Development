@@ -1,13 +1,15 @@
 // Home.jsx
 
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Script from "../components/Script";
 import { AiFillEdit, AiOutlineDelete } from "react-icons/ai";
 
 const Home = () => {
+  const navigate = useNavigate();
+  
   const [blogs, setBlogs] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isInputFocused, setIsInputFocused] = useState(false);

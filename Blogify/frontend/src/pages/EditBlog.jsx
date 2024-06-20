@@ -7,15 +7,19 @@ import Navbar from "../components/Navbar";
 
 const EditBlog = () => {
   const navigate = useNavigate();
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
   const { enqueueSnackbar } = useSnackbar();
   const { id } = useParams();
+
+  const [coverImageUrl, setCoverImageUrl] = useState("");
+  const [coverImageFile, setCoverImageFile] = useState(null);
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
 
   useEffect(() => {
     axios
       .get(`http://localhost:9000/blogs/edit/${id}`)
       .then((res) => {
+        setCoverImageUrl(res.data.coverImageUrl);
         setTitle(res.data.title);
         setBody(res.data.body);
       })
@@ -25,30 +29,63 @@ const EditBlog = () => {
   }, [id]);
 
   const handleEditBlog = (e) => {
-    e.preventDefault(); // Prevent default form submission
-    const data = {
-      title,
-      body,
-    };
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("body", body);
+
+    if (coverImageFile) {
+      formData.append("coverImage", coverImageFile);
+    }
+
     axios
-      .put(`http://localhost:9000/blogs/${id}`, data)
+      .put(`http://localhost:9000/blogs/${id}`, formData)
       .then(() => {
-        enqueueSnackbar("Blog Edited successfully", { variant: "success" });
+        enqueueSnackbar("Blog edited successfully", { variant: "success" });
         navigate("/");
       })
       .catch((err) => {
-        enqueueSnackbar("Error", { variant: "error" });
+        enqueueSnackbar("Error editing blog", { variant: "error" });
         console.log(err);
       });
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setCoverImageFile(file);
+    setCoverImageUrl(URL.createObjectURL(file));
   };
 
   return (
     <>
       <Navbar />
-      <div className="mt-24 flex justify-center items-center h-screen">
+      <div className="mt-52 mb-52 flex justify-center items-center h-screen">
         <div className="max-w-xl w-full bg-white p-8 rounded shadow-2xl">
           <h2 className="text-2xl font-bold mb-6">Edit Blog</h2>
           <form onSubmit={handleEditBlog} encType="multipart/form-data">
+            <div className="mb-4">
+              <label
+                htmlFor="coverImage"
+                className="block text-xl font-medium text-gray-700"
+              >
+                Cover Image
+              </label>
+              <input
+                type="file"
+                onChange={handleImageChange}
+                id="coverImage"
+                name="coverImage"
+                aria-describedby="coverImage"
+              />
+              {coverImageUrl && (
+                <img
+                  className="h-full w-full mt-2"
+                  src={coverImageUrl}
+                  alt="cover"
+                />
+              )}
+            </div>
             <div className="mb-4">
               <label
                 htmlFor="title"
