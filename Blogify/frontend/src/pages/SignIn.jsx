@@ -12,16 +12,15 @@ const SignIn = () => {
   const handleSigninSubmit = async (e) => {
     e.preventDefault();
     const userData = {
-        email,
-        password,
-      };
+      email,
+      password,
+    };
     try {
       await axios.post("http://localhost:9000/user/signin", userData);
-      
+
       enqueueSnackbar("Signin successful", { variant: "success" });
       navigate("/");
-    }
-     catch (err) {
+    } catch (err) {
       enqueueSnackbar("Error during signin", { variant: "error" });
       console.log(err);
     }
@@ -73,8 +72,11 @@ const SignIn = () => {
             type="submit"
             className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline"
           >
-            Submit
+            Login
           </button>
+          <div className="mt-2 text-primaryColor text-[15px]">
+            <a href="/register">Don't have account? Register Yourself</a>
+          </div>
         </form>
       </div>
     </div>
