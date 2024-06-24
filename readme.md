@@ -54,3 +54,7 @@ Rest API done fetching data from newsapi and render on the web page.
 
 - Put
 - Delete
+
+5. Blogify Interfaces
+
+- upload all pages
